@@ -97,8 +97,8 @@ def animate_route(graph, pos, path, charging_stations, start, end, distance):
                 edge_color=edge_colors, width=edge_widths, ax=ax)
 
         for node, (x, y) in pos.items():
-            ax.text(x, y, node, fontsize=7, fontweight='bold', color='black',
-                    ha='center', va='center', zorder=5)
+            ax.text(x, y, node, fontsize=7, fontweight='bold', color='#FAFAFA',
+                ha='center', va='center', zorder=5)
 
         nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels, font_size=8,
                                       font_color='#CCCCCC', ax=ax)
@@ -130,7 +130,7 @@ def animate_route(graph, pos, path, charging_stations, start, end, distance):
             edge_color=edge_colors, width=edge_widths, ax=ax)
 
     for node, (x, y) in pos.items():
-        ax.text(x, y, node, fontsize=7, fontweight='bold', color='black',
+        ax.text(x, y, node, fontsize=7, fontweight='bold', color='#FAFAFA',
                 ha='center', va='center', zorder=5)
 
     nx.draw_networkx_edge_labels(graph, pos, edge_labels=labels, font_size=8,
@@ -158,15 +158,42 @@ def metric_card(label, value, color="#00D9FF"):
     )
 
 
+def inject_global_css():
+    st.markdown(
+        """
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        html, body, [class*="css"]  {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F13;
+            color: #FAFAFA;
+        }
+        .stButton>button {
+            background: linear-gradient(90deg,#00D9FF 0%, #00FF7F 100%);
+            color: #08121A;
+            font-weight: 700;
+            border: none;
+        }
+        .stSidebar .css-1d391kg {
+            background-color: #0F1720;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def main():
     st.set_page_config(page_title="EV Charging Station Planner", layout="wide", page_icon="⚡")
 
+    inject_global_css()
+
     st.markdown(
         """
-        <h1 style="margin-bottom:0;">⚡ EV Charging Station Planner</h1>
-        <p style="color:#9AA0AC; margin-top:4px;">
-        Dijkstra Shortest Path &nbsp;|&nbsp; Greedy Battery-Aware Charging &nbsp;|&nbsp; Prim's MST
-        </p>
+        <div style="display:flex; align-items:center; gap:16px;">
+          <div style="font-size:34px; font-weight:800;">⚡ EV Charging Station Planner</div>
+          <div style="color:#9AA0AC; font-size:14px;">Dijkstra · Battery-Aware Routing · Prim's MST</div>
+        </div>
         <hr style="border-color:#2A2F3C;">
         """,
         unsafe_allow_html=True,
